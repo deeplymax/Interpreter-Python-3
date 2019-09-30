@@ -1,2 +1,10 @@
 
 import maxLib
+False False False True
+True
+False
++
+-
+/
+*
++ - * /
