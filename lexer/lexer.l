@@ -14,6 +14,9 @@
 import      printf("The keyword : %s\n", yytext);
 False       printf("The keyword : %s\n", yytext);
 True        printf("The keyword : %s\n", yytext);
+if          printf("The keyword : %s\n", yytext);
+else        printf("The keyword : %s\n", yytext);
+elif        printf("The keyword : %s\n", yytext);
 
 %{
     /* Operators */
@@ -21,7 +24,7 @@ True        printf("The keyword : %s\n", yytext);
 \+          printf("The operator : %s\n", yytext);
 -           printf("The operator : %s\n", yytext);
 \*          printf("The operator : %s\n", yytext);
-\/     		printf("The operator : %s\n", yytext);
+\/          printf("The operator : %s\n", yytext);
 
 %{
     /* Identifiers */
