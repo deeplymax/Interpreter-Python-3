@@ -1,0 +1,27 @@
+def decoder(key, str):
+    tmp = sorted(key)
+    lenght = len(str) // len(key)
+    ost = len(str) % len(key)
+    arr = []
+    for i in range(0, (len(str) + len(key)) // len(key)):
+        arr.append([None] * len(key))
+
+    cnt = 0
+    for i in tmp:
+        key.find(i)
+        ind = key.find(i).__index__()
+        if len(str) > cnt:
+            if ind < ost:
+                num = lenght + 1
+            else:
+                num = lenght
+            for n in range(0, num):
+                arr[n][ind] = str[cnt]
+                cnt += 1
+    answ = ""
+    for i in arr:
+        for j in i:
+            if j != None:
+                answ += j
+
+    return answ[0].upper() + answ[1:len(answ)]
