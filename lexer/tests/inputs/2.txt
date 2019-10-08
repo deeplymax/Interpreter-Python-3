@@ -1,0 +1,12 @@
+if ab
+    a
+        b
+            c
+
+        d
+    g
+if
+    d
+    d
+    d
+a

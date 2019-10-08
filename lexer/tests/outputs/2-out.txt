@@ -1,0 +1,31 @@
+The keyword : if
+ The identifier : ab
+The newline started
+The indent done from 0 to 4
+The identifier : a
+The newline started
+The indent done from 4 to 8
+The identifier : b
+The newline started
+The indent done from 8 to 12
+The identifier : c
+The newline started
+EMPTYSTRING
+The dedent done from 12 to 8
+The identifier : d
+The newline started
+The dedent done from 8 to 4
+The identifier : g
+The newline started
+The dedent done from 4 to 0
+The keyword : if
+The newline started
+The indent done from 0 to 4
+The identifier : d
+The newline started
+The identifier : d
+The newline started
+The identifier : d
+The newline started
+The dedent done from 4 to 0
+The identifier : a

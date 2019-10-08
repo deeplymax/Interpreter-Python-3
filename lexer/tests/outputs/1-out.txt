@@ -1,0 +1,134 @@
+The empty string
+The empty string
+The keyword : if
+ The identifier : ab
+The newline started
+The indent done from 0 to 4
+The identifier : a
+The newline started
+The indent done from 4 to 8
+The identifier : b
+The newline started
+The indent done from 8 to 12
+The identifier : c
+The newline started
+EMPTYSTRING
+The dedent done from 12 to 8
+The identifier : d
+The newline started
+The dedent done from 8 to 4
+The identifier : g
+The newline started
+The dedent done from 4 to 0
+The newline started
+The indent done from 0 to 4
+The identifier : d
+The newline started
+The identifier : d
+The newline started
+The identifier : d
+The newline started
+The dedent done from 4 to 0
+The newline started
+ = 7The newline started
+The indent done from 0 to 4
+The identifier : a
+ = 5The newline started
+EMPTYSTRING
+The dedent done from 4 to 0
+The identifier : mport
+ The identifier : maxLib
+The newline started
+The identifier : alse
+ The keyword : False
+ The keyword : False
+ The keyword : True
+The newline started
+The identifier : rue
+The newline started
+The identifier : alse
+The newline started
+The newline started
+The newline started
+The newline started
+The newline started
+ The operator : -
+ The operator : *
+ The operator : /
+The newline started
+The identifier : f
+The newline started
+The identifier : lse
+The newline started
+The identifier : lif
+The newline started
+The identifier : f
+ The keyword : else
+ The keyword : elif
+The newline started
+EMPTYSTRING
+The identifier : mport
+      The newline started
+The identifier : alse
+The newline started
+The identifier : rue
+        The newline started
+The identifier : f
+          The newline started
+The identifier : lse
+        The newline started
+The identifier : lif
+        The newline started
+The keyword : or
+         The newline started
+The identifier : n
+          The newline started
+The identifier : hile
+       The newline started
+The identifier : one
+        The newline started
+The identifier : nd
+         The newline started
+The identifier : s
+          The newline started
+The identifier : ssert
+      The newline started
+The identifier : reak
+      The newline started
+The identifier : lass
+       The newline started
+The identifier : ontinue
+   The newline started
+The identifier : ef
+         The newline started
+The identifier : el
+         The newline started
+The identifier : xcept
+      The newline started
+The identifier : inally
+     The newline started
+The identifier : rom
+        The newline started
+The identifier : lobal
+      The newline started
+The identifier : s
+          The newline started
+The identifier : ambda
+      The newline started
+The identifier : onlocal
+    The newline started
+The identifier : ot
+         The newline started
+The identifier : r
+          The newline started
+The identifier : ass
+        The newline started
+The identifier : aise
+       The newline started
+The identifier : eturn
+      The newline started
+The identifier : ry
+        The newline started
+The identifier : ith
+        The newline started
+The identifier : ield

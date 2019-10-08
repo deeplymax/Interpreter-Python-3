@@ -29,7 +29,7 @@ void indentation(int* stack, int* lastIndex, int size);
 %}
 ^\s*\n  printf("The empty string\n");
 
-<DENT>^[ \t]*\n         printf("EMPTYSTRING\n");
+<DENT>^[ \t]*\n         printf("The empty string in dent\n");
 <DENT>^[ ]+ {
 				if( !(boolean_isInString || countParenthesesBrackets || countSquareBrackets || countCurlyBrackets) )
 				{
