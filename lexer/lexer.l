@@ -78,10 +78,38 @@ yield       printf("The keyword : %s\n", yytext);
 %{
     /* Operators */
 %}
+\(			{printf("The operator : %s\n", yytext); ++countParenthesesBrackets;}
+\)			{printf("The operator : %s\n", yytext); --countParenthesesBrackets;}
+\[			{printf("The operator : %s\n", yytext); ++countSquareBrackets;}
+\]			{printf("The operator : %s\n", yytext); --countSquareBrackets;}
+\{			{printf("The operator : %s\n", yytext); ++countCurlyBrackets;}
+\}			{printf("The operator : %s\n", yytext); --countCurlyBrackets;}
 \+          printf("The operator : %s\n", yytext);
 -           printf("The operator : %s\n", yytext);
 \*          printf("The operator : %s\n", yytext);
 \/          printf("The operator : %s\n", yytext);
+\*\*     	printf("The operator : %s\n", yytext);
+\/\/     	printf("The operator : %s\n", yytext);
+\%     		printf("The operator : %s\n", yytext);
+\>     		printf("The operator : %s\n", yytext);
+\<     		printf("The operator : %s\n", yytext);
+\<=     	printf("The operator : %s\n", yytext);
+\>=     	printf("The operator : %s\n", yytext);
+==     		printf("The operator : %s\n", yytext);
+!=     		printf("The operator : %s\n", yytext);
+,     		printf("The operator : %s\n", yytext);
+:     		printf("The operator : %s\n", yytext);
+\.     		printf("The operator : %s\n", yytext);
+\;     		printf("The operator : %s\n", yytext);
+\=     		printf("The operator : %s\n", yytext);
+->     		printf("The operator : %s\n", yytext);
+\+=     	printf("The operator : %s\n", yytext);
+-=     		printf("The operator : %s\n", yytext);
+\*=     	printf("The operator : %s\n", yytext);
+\/=     	printf("The operator : %s\n", yytext);
+\/\/=     	printf("The operator : %s\n", yytext);
+%=     		printf("The operator : %s\n", yytext);
+\*\*=     	printf("The operator : %s\n", yytext);
 
 %{
     /* Identifiers */
