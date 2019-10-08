@@ -140,7 +140,7 @@ yield       printf("The keyword : %s\n", yytext);
 %}
 
 {FLOAT}			printf("The float number %f \n", atof(yytext));
-{INT} 			printf("The integer number %d \n", atoi(yytext));
+{INTEGER} 			printf("The integer number %d \n", atoi(yytext));
 {IDENTIFIER}	printf("The identifier : %s \n", yytext);
 
 \n 			{
