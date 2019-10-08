@@ -11,6 +11,12 @@ void indentation(int* stack, int* lastIndex, int size);
 
 %x DENT
 
+INTEGER 	[0-9]+
+EXP			(e|E)(\-|\+)?{INTEGER}
+FLOAT		([0-9]*([0-9]\.|\.[0-9])[0-9]*({EXP})?|{INTEGER}({EXP}))
+IDENTIFIER 	[A-Za-z_][A-Za-z0-9_]*
+EMPTYINDENTS [ \t]
+
 %%
 
 %{
@@ -132,7 +138,10 @@ yield       printf("The keyword : %s\n", yytext);
 %{
     /* Identifiers */
 %}
-[A-Za-z_][A-Za-z0-9_]*  printf("The identifier : %s\n", yytext);
+
+{FLOAT}			printf("The float number %f \n", atof(yytext));
+{INT} 			printf("The integer number %d \n", atoi(yytext));
+{IDENTIFIER}	printf("The identifier : %s \n", yytext);
 
 \n 			{
 				if (!countParenthesesBrackets && !countSquareBrackets && !countCurlyBrackets) {
@@ -141,6 +150,9 @@ yield       printf("The keyword : %s\n", yytext);
 					BEGIN(DENT);
 				}
 			}
+
+{EMPTYINDENTS} {;}
+
 <<EOF>> { indentation(stack, &lastIndex, 0); yyterminate(); }
 %%
 
