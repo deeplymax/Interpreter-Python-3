@@ -17,10 +17,13 @@ void indentation(int* stack, int* lastIndex, int size);
     int stack[1000];
     stack[0] = 0;
     int lastIndex = 0;
+
     int countParenthesesBrackets = 0;
     int countSquareBrackets = 0;
     int countCurlyBrackets = 0;
     int boolean_isInString = 0;
+
+	int INDENT_SPACE_COUNT = 4;
 %}
 
 
@@ -31,13 +34,28 @@ void indentation(int* stack, int* lastIndex, int size);
 
 <DENT>^[ \t]*\n         printf("The empty string in dent\n");
 <DENT>^[ ]+ {
-				if( !(boolean_isInString || countParenthesesBrackets || countSquareBrackets || countCurlyBrackets) )
-				{
+				if( !(boolean_isInString || countParenthesesBrackets || countSquareBrackets || countCurlyBrackets) ) {
 					indentation(stack, &lastIndex, strlen(yytext));
 					BEGIN(INITIAL);
 				}
 			}
-
+<DENT>^[\t]+ {
+				if( !(boolean_isInString || countParenthesesBrackets || countSquareBrackets || countCurlyBrackets) ) {
+					indentation(stack, &lastIndex, strlen(yytext) * INDENT_SPACE_COUNT);
+					BEGIN(INITIAL);
+				}
+			}
+<DENT>^[ \t]{2,} {
+					if( !(boolean_isInString || countParenthesesBrackets || countSquareBrackets || countCurlyBrackets) ) {
+						printf("Error! You mixed tabs and spaces %d\n", yylineno);
+					}
+				 }
+<DENT>""/.		{
+					if( !(boolean_isInString || countParenthesesBrackets || countSquareBrackets || countCurlyBrackets) ) {
+						indentation(stack, &lastIndex, 0);
+						BEGIN(INITIAL);
+					}
+				}
 %{
     /* Keywords */
 %}
