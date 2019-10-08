@@ -1,4 +1,10 @@
 
+
+
+
+a = 7
+    a = 5
+
 import maxLib
 False False False True
 True
@@ -14,7 +20,7 @@ elif
 if else elif
 
 import      
-False       
+False
 True        
 if          
 else        

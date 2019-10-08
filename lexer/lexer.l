@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 /* Calculate the indention */
-void indentation(int* stack, int* topValue, int size);
+void indentation(int* stack, int* lastIndex, int size);
 %}
 
 %option noyywrap
@@ -16,7 +16,7 @@ void indentation(int* stack, int* topValue, int size);
 %{
     int stack[1000];
     stack[0] = 0;
-    int topValue = 0;
+    int lastIndex = 0;
     int countParenthesesBrackets = 0;
     int countSquareBrackets = 0;
     int countCurlyBrackets = 0;
@@ -28,6 +28,15 @@ void indentation(int* stack, int* topValue, int size);
     /* Basics */
 %}
 ^\s*\n  printf("The empty string\n");
+
+<DENT>^[ \t]*\n         printf("EMPTYSTRING\n");
+<DENT>^[ ]+ {
+				if( !(boolean_isInString || countParenthesesBrackets || countSquareBrackets || countCurlyBrackets) )
+				{
+					indentation(stack, &lastIndex, strlen(yytext));
+					BEGIN(INITIAL);
+				}
+			}
 
 %{
     /* Keywords */
@@ -78,4 +87,40 @@ yield       printf("The keyword : %s\n", yytext);
     /* Identifiers */
 %}
 [A-Za-z_][A-Za-z0-9_]*  printf("The identifier : %s\n", yytext);
+
+\n 			{
+				if (!countParenthesesBrackets && !countSquareBrackets && !countCurlyBrackets) {
+					boolean_isInString = 0;
+					printf("The newline started\n");
+					BEGIN(DENT);
+				}
+			}
+<<EOF>> { indentation(stack, &lastIndex, 0); yyterminate(); }
 %%
+
+void indentation (int *stack, int *lastIndex, int size) {
+    /* Check dedent */
+	if (size < stack[*lastIndex]) {
+		int tmpIndex = *lastIndex;
+        /* find appropriate dedent */
+		while(size < stack[tmpIndex]) {
+			tmpIndex--;
+        }
+        /* if cant find appropriate dedent */
+		if (size != stack[tmpIndex]) {
+			printf("Error: Find inappropriate dedent %d\n", size);
+        }
+		else {
+			while(*lastIndex > tmpIndex) {
+                printf("The dedent done from %d to %d\n", stack[(*lastIndex)], stack[*(lastIndex) - 1]);
+				(*lastIndex)--;
+			}
+		}
+	}		
+    /* Check indent */
+	if (size > stack[*lastIndex]) {
+		(*lastIndex)++;
+		stack[*lastIndex] = size;
+        printf("The indent done from %d to %d\n", stack[(*lastIndex) - 1], stack[*(lastIndex)]);
+	}
+}
