@@ -10,6 +10,14 @@ void indentation(int* stack, int* lastIndex, int size);
 %option yylineno
 
 %x DENT
+%x ONELINECOMMENT
+%x MULTILINEDOUBLEQUOTES
+%x MULTILINESINGLEQUOTES
+%x SINGLEQUOTESSTRING
+%x DOUBLEQUOTESSTRING
+
+
+
 
 INTEGER 	[0-9]+
 EXP			(e|E)(\-|\+)?{INTEGER}
@@ -30,15 +38,58 @@ EMPTYINDENTS [ \t]
     int boolean_isInString = 0;
 
 	int INDENT_SPACE_COUNT = 4;
+
+	char tmp[1000];
+	tmp[0] = 0;
+
+	char toHex[3];
 %}
 
 
 %{
     /* Basics */
 %}
-^\s*\n  printf("The empty string\n");
+^\s*\n  printf("The empty DOUBLEQUOTESSTRING\n");
 
-<DENT>^[ \t]*\n         printf("The empty string in dent\n");
+#	{BEGIN(ONELINECOMMENT); tmp[0] = 0;}
+<ONELINECOMMENT>[^\\\n]+ strcat(tmp, yytext);
+<ONELINECOMMENT>[\\\n]	{printf("The one line tmp : %s\n", tmp); BEGIN(INITIAL);}
+
+%{
+    /* Work with strings */
+%}
+
+\"{3}																									{BEGIN(MULTILINEDOUBLEQUOTES); tmp[0] = 0;}
+<MULTILINEDOUBLEQUOTES>\\n																				strcat(tmp,"\n");
+<MULTILINEDOUBLEQUOTES,DOUBLEQUOTESSTRING,MULTILINESINGLEQUOTES>\\\"									strcat(tmp,"\"");
+<MULTILINEDOUBLEQUOTES,MULTILINESINGLEQUOTES,DOUBLEQUOTESSTRING,SINGLEQUOTESSTRING>\\\\					strcat(tmp,"\\");
+<MULTILINEDOUBLEQUOTES,MULTILINESINGLEQUOTES,DOUBLEQUOTESSTRING,SINGLEQUOTESSTRING>\\\'					strcat(tmp,"\'");
+<MULTILINEDOUBLEQUOTES,DOUBLEQUOTESSTRING,MULTILINESINGLEQUOTES>\'										strcat(tmp,"\'");
+<MULTILINEDOUBLEQUOTES,SINGLEQUOTESSTRING,MULTILINESINGLEQUOTES>\"										strcat(tmp,"\"");
+<MULTILINEDOUBLEQUOTES,MULTILINESINGLEQUOTES,DOUBLEQUOTESSTRING,SINGLEQUOTESSTRING>\\n					strcat(tmp, "\n");
+<MULTILINEDOUBLEQUOTES,MULTILINESINGLEQUOTES,DOUBLEQUOTESSTRING,SINGLEQUOTESSTRING>\\a					strcat(tmp,"\a");
+<MULTILINEDOUBLEQUOTES,MULTILINESINGLEQUOTES,DOUBLEQUOTESSTRING,SINGLEQUOTESSTRING>\\b					strcat(tmp,"\b");
+<MULTILINEDOUBLEQUOTES,MULTILINESINGLEQUOTES,DOUBLEQUOTESSTRING,SINGLEQUOTESSTRING>\\f					strcat(tmp,"\f");
+<MULTILINEDOUBLEQUOTES,MULTILINESINGLEQUOTES,DOUBLEQUOTESSTRING,SINGLEQUOTESSTRING>\\r					strcat(tmp,"\r");
+<MULTILINEDOUBLEQUOTES,MULTILINESINGLEQUOTES,DOUBLEQUOTESSTRING,SINGLEQUOTESSTRING>\\t					strcat(tmp,"\t");
+<MULTILINEDOUBLEQUOTES,MULTILINESINGLEQUOTES,DOUBLEQUOTESSTRING,SINGLEQUOTESSTRING>\\v					strcat(tmp,"\v");
+<MULTILINEDOUBLEQUOTES,MULTILINESINGLEQUOTES,DOUBLEQUOTESSTRING,SINGLEQUOTESSTRING>[^\"\\\n\'\a\b\f\r\t\v\x]+		strcat(tmp, yytext);
+<MULTILINEDOUBLEQUOTES>\"\"\" 		{printf("MULTILINEDOUBLEQUOTES literal: %s\n",tmp); BEGIN(INITIAL);}
+
+\"											{ BEGIN(DOUBLEQUOTESSTRING); tmp[0] = 0; }
+<DOUBLEQUOTESSTRING,SINGLEQUOTESSTRING>\n	{ printf("Error! STRING is not closed\n"); BEGIN(INITIAL); }
+<DOUBLEQUOTESSTRING>\" 						{ printf("DOUBLEQUOTESSTRING literal %s\n", tmp); BEGIN(INITIAL); }
+
+\'							{BEGIN(SINGLEQUOTESSTRING); tmp[0] = 0;}
+<SINGLEQUOTESSTRING>\' 		{printf("SINGLEQUOTESSTRING literal %s\n", tmp); BEGIN(INITIAL);}
+
+%{
+    /* Work with tabs */
+%}
+
+
+<DENT>^[ \t]*#			{tmp[0] = 0; BEGIN(ONELINECOMMENT);}
+<DENT>^[ \t]*\n         printf("The empty DOUBLEQUOTESSTRING in dent\n");
 <DENT>^[ ]+ {
 				if( !(boolean_isInString || countParenthesesBrackets || countSquareBrackets || countCurlyBrackets) ) {
 					indentation(stack, &lastIndex, strlen(yytext));
@@ -53,7 +104,7 @@ EMPTYINDENTS [ \t]
 			}
 <DENT>^[ \t]{2,} {
 					if( !(boolean_isInString || countParenthesesBrackets || countSquareBrackets || countCurlyBrackets) ) {
-						printf("Error! You mixed tabs and spaces %d\n", yylineno);
+						printf("Error! You mixed tabs and spaces");
 					}
 				 }
 <DENT>""/.		{
@@ -143,6 +194,8 @@ yield       printf("The keyword : %s\n", yytext);
 {INTEGER} 			printf("The integer number %d \n", atoi(yytext));
 {IDENTIFIER}	printf("The identifier : %s \n", yytext);
 
+
+\\\s*\n		{printf("The backslash"); boolean_isInString = 1;}
 \n 			{
 				if (!countParenthesesBrackets && !countSquareBrackets && !countCurlyBrackets) {
 					boolean_isInString = 0;
