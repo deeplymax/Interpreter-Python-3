@@ -1,0 +1,6 @@
+s = "dsdsd\'\'\'\t\t\naaaaa\naaaaa\naaa"
+
+t = "\nthe second pretest\n"
+
+x = '\n\n\n\n\n\taaaaaa\taaaaa
+

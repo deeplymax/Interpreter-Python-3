@@ -1,0 +1,11 @@
+'''
+zzzzz\n\'\'\'
+'''
+
+"""aaaaa
+bbbbb
+\n\n\n\n
+ccccc
+\t\t\taaaaa
+gggggg"""
+
