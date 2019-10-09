@@ -195,6 +195,9 @@ yield       printf("The keyword : %s\n", yytext);
 {IDENTIFIER}	printf("The identifier : %s \n", yytext);
 
 
+%{
+    /* Some fitches */
+%}
 \\\s*\n		{printf("The backslash"); boolean_isInString = 1;}
 \n 			{
 				if (!countParenthesesBrackets && !countSquareBrackets && !countCurlyBrackets) {
@@ -204,8 +207,14 @@ yield       printf("The keyword : %s\n", yytext);
 				}
 			}
 
+%{
+    /* End of file with spaces and tabs */
+%}
 {EMPTYINDENTS} {;}
 
+%{
+    /* Reset state machine*/
+%}
 <<EOF>> { indentation(stack, &lastIndex, 0); yyterminate(); }
 %%
 
